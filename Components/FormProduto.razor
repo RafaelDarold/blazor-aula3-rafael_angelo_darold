@@ -1,0 +1,32 @@
+<EditForm Model="produto" OnValidSubmit="CadastrarProduto" class="d-grid">
+    <DataAnnotationsValidator />
+
+    <label for="produto-nome" class="form-label">Produto</label>
+    <InputText id="produto-nome" class="form-control" @bind-Value="produto.Nome" />
+    <ValidationMessage For="() => produto.Nome" />
+
+    <label for="produto-preco" class="form-label">Preço</label>
+    <InputNumber id="produto-preco" class="form-control" @bind-Value="produto.Preco"
+                 ParsingErrorMessage="Informe um preço válido." />
+    <ValidationMessage For="() => produto.Preco" />
+
+    <label for="produto-estoque" class="form-label">Estoque</label>
+    <InputNumber id="produto-estoque" class="form-control" @bind-Value="produto.Quantidade"
+                 ParsingErrorMessage="Informe uma quantidade inteira." />
+    <ValidationMessage For="() => produto.Quantidade" />
+
+    <hr />
+    <button class="btn btn-primary" type="submit">Adicionar</button>
+</EditForm>
+
+@code {
+    [Parameter] public EventCallback<Produto> AoCadastrar { get; set; }
+
+    private Produto produto = new();
+
+    private async Task CadastrarProduto()
+    {
+        await AoCadastrar.InvokeAsync(produto);
+        produto = new();
+    }
+}

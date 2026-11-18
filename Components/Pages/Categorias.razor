@@ -1,0 +1,64 @@
+﻿@page "/Categorias"
+
+<h3>Categorias</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card card-body">
+            <label class="form-label">Categoria</label>
+            <input class="form-control" type="text" @bind="nome" />
+            <label class="form-label">Quantidade</label>
+            <input class="form-control" type="number" @bind="quantidade" />
+            <hr />
+            <button class="btn btn-primary" @onclick="AdicionarCategoria">Adicionar</button>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <table class="table table-hover table-borderlessv table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Quatidade</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var c in categorias)
+                {
+                    @if (c.Nome is not null &&  c.Quantidade > 0)
+                    {
+                        <tr>
+                            <td>@c.Nome</td>
+                            <td>@c.Quantidade</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <p class="text-danger">Nenhuma categoria cadastrada</p>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    private string nome = "";
+    private int quantidade;
+
+    private List<Categoria> categorias = new();
+
+    private void AdicionarCategoria()
+    {
+        categorias.Add(new Categoria
+        {
+            Nome = nome,
+            Quantidade = quantidade
+        }
+        );
+
+        nome = "";
+        quantidade = 0;
+    }
+}
